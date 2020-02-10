@@ -1,0 +1,29 @@
+{
+  "name": "collect-stuff",
+  "version": "1.0.0",
+  "description": "collect urls mainly...",
+  "main": "collect.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://benneee:TUpgu9ytT2j2CWL@github.com/Benneee/collect-stuff.git"
+  },
+  "keywords": [
+    "scraping",
+    "node.js",
+    "node",
+    "web",
+    "scraping"
+  ],
+  "author": "Benedict Nkeonye",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Benneee/collect-stuff/issues"
+  },
+  "homepage": "https://github.com/Benneee/collect-stuff#readme",
+  "dependencies": {
+    "puppeteer": "^2.1.1"
+  }
+}
