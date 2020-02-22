@@ -1,9 +1,7 @@
 const puppeteer = require("puppeteer");
-const {
-  getSavedEpisode,
-  saveEpisodeInfo,
-  transporter
-} = require("./saveAndEmail");
+const { getSavedEpisode, saveEpisodeInfo } = require("./saveAndEmail");
+const nodemailer = require("nodemailer");
+
 const log = console.log;
 const episode1 = "Chicago-Med-8";
 const seriesName = "Chicago Med";
@@ -24,7 +22,7 @@ async function collectEpisodeInfo(url) {
 
   //   Write to file
   episodeInfo = { episodeTitle, episodeLink };
-  addNewEpisode(episodeInfo);
+  saveEpisodeInfo(episodeInfo);
 
   browser.close();
 }
@@ -32,8 +30,18 @@ async function collectEpisodeInfo(url) {
 collectEpisodeInfo(`https://o2tvseries.com/${episode1}/Season-05/index.html`)
   .then(() => {
     const episode = getSavedEpisode();
-    // log("data: ", episode);
     const { episodeTitle, episodeLink } = episode;
+
+    let transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
+      auth: {
+        user: process.env.MAIL,
+        pass: process.env.MAILPASSWORD
+      }
+    });
+
     let mailOptions = {
       from: process.env.MAIL,
       to: "benedictiknkeonye@gmail.com",
@@ -45,7 +53,7 @@ collectEpisodeInfo(`https://o2tvseries.com/${episode1}/Season-05/index.html`)
       if (error) {
         log("error: ", error);
       } else {
-        log("sent: ", info);
+        log("info: ", info);
       }
     });
   })
@@ -55,10 +63,8 @@ collectEpisodeInfo(`https://o2tvseries.com/${episode1}/Season-05/index.html`)
 
 /**
  * ToDos
- * Write the results of the scraping to a file in this directory
- * Whenever the code is run, check for differences between the latest search and the saved episodeTitle
- * If there's a difference, send a mail to me to say there is a new episode of "Chicago Med"
- * Bring in other urls to check for updates regularly
- *
- * API KEY for sendgrid not being seen
+ * Create an array of various shows
+ * Check that they have the same markup to ensure scraping method can just collect array values as parameters
+ * Create the cron job
+ * Deploy the script
  */
