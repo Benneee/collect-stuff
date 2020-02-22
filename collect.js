@@ -22,12 +22,10 @@ async function collectEpisodeInfo(url) {
   const href = await el.getProperty("href");
   const episodeLink = await href.jsonValue();
 
-  episodeInfo = { episodeTitle, episodeLink };
-
   //   Write to file
-  saveEpisodeInfo(episodeInfo);
+  episodeInfo = { episodeTitle, episodeLink };
+  addNewEpisode(episodeInfo);
 
-  //   log(episodeInfo);
   browser.close();
 }
 
@@ -61,4 +59,6 @@ collectEpisodeInfo(`https://o2tvseries.com/${episode1}/Season-05/index.html`)
  * Whenever the code is run, check for differences between the latest search and the saved episodeTitle
  * If there's a difference, send a mail to me to say there is a new episode of "Chicago Med"
  * Bring in other urls to check for updates regularly
+ *
+ * API KEY for sendgrid not being seen
  */
